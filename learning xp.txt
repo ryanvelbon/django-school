@@ -1,0 +1,24 @@
+ARRIVED CHP 9
+
+1. Custom User Model
+
+
+2. Regular expression for Phone numbers
+https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
+     - Backend validation
+     - Frontend validation
+
+3. populate.py script with functions which can be invoked separately from CLI
+     PROBLEM
+     - We would like to invoke the function bar() from our foo.py script
+
+     SOLUTION
+     - Do not run the module as a main program
+     - i.e., do not write...    if __name__ == "__main__"
+     - Instead, open a Python shell in CLI, import the module and invoke the required function, like so:
+     - $ python
+     - $ >>> import foo
+     - $ >>> foo.bar()
+
+
+4.
