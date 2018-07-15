@@ -22,11 +22,22 @@ class School(models.Model):
         ('church', 'Church school'),
     )
 
+    GENDER_CHOICES = (
+        ('boys', 'boys'),
+        ('girls', 'girls'),
+        ('mixed', 'mixed'),
+    )
+
     name = models.CharField(max_length=80)
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE, null=True)
     type = models.CharField(
         max_length = 20,
         choices=TYPE_OF_SCHOOL_CHOICES,
+    )
+    gender = models.CharField(
+        max_length = 10,
+        choices = GENDER_CHOICES,
+        default = 'mixed',
     )
 
     def __str__(self):
@@ -39,10 +50,18 @@ class CustomUser(AbstractUser):
 
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
 
+    mob_parent = models.CharField(
+        validators=[phone_regex],
+        max_length=8,
+        blank=True,
+        verbose_name="Parent's Mobile",
+    )
+
     mob_student = models.CharField(
         validators=[phone_regex],
         max_length=8,
-        blank=True
+        blank=True,
+        verbose_name="Student's Mobile",
     )
 
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE, null=True)

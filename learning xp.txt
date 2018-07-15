@@ -1,10 +1,15 @@
-ARRIVED CHP 9
+WHERE ARE YOU: users/test.py
+... IMPLEMENT test_blank_data() 
+
+LITERATURE:
+     - William Vincent Chapters 8, 9
+     arrived p.197 (actual page)
 
 1. Custom User Model
 
 
 2. Regular expression for Phone numbers
-https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
+     - https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
      - Backend validation
      - Frontend validation
 
@@ -21,4 +26,31 @@ https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-n
      - $ >>> foo.bar()
 
 
-4.
+4. Customising UserCreationForm
+     - By default, UserCreationForm only asks for username, password, and password confirmation.
+     - We wish to ask for other details.
+
+5. Automatically generating a username when a user creates an account
+     - https://stackoverflow.com/questions/28765847/generate-uniq-username-using-first-and-last-name-in-django
+
+6. Testing
+  6.1. Testing Form Submission
+     - Valid form submission
+     - Invalid form submission
+
+     - Testing Password
+       self.assertTrue(user.check_password("dsg123FT2"))
+
+     - Testing ForeignKey field
+       self.assertEqual(user.locality, Locality.objects.get(id=1))
+
+     ARRIVED: Displaying the comment form
+     http://test-driven-django-development.readthedocs.io/en/latest/05-forms.html
+
+7. When creating a Model object with a FK field; the FK field must be passed a primary key.
+     - See users/tests.py test_valid_date() function.
+     - Otherwise you will get the following error: "Select a valid choice. That choice is not one of the available choices."
+   Testing Form with ForeignKey
+     - https://stackoverflow.com/questions/34317847/django-forms-unit-tests-with-foreignkey
+
+8.
