@@ -1,5 +1,5 @@
 WHERE ARE YOU: users/test.py
-... IMPLEMENT test_blank_data() 
+... IMPLEMENT test_blank_data()
 
 LITERATURE:
      - William Vincent Chapters 8, 9
@@ -53,4 +53,4 @@ LITERATURE:
    Testing Form with ForeignKey
      - https://stackoverflow.com/questions/34317847/django-forms-unit-tests-with-foreignkey
 
-8.
+8. Overriding django.contrib.auth.models.AbstractUser to make first_name and last_name fields required.

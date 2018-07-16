@@ -65,3 +65,5 @@ class CustomUser(AbstractUser):
     )
 
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE, null=True)
+
+    # BUG: make first_name and last_name required

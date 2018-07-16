@@ -78,21 +78,33 @@ class CustomUserCreationFormTest(TestCase):
         self.assertEqual(user.school, School.objects.get(id=1))
         self.assertTrue(user.check_password("dsg123FT2"))
 
-    # def test_blank_data(self):
-    #     form = CustomUserCreationForm({})
-    #     self.assertFalse(form.is_valid())
-    #     print("*" * 50)
-    #     print(form.errors.as_json())
-    #     print("*" * 50)
-    #     # REMINDER: {} is a data dictionary
-    #     self.assertEqual(form.errors, {
-    #         'first_name': ['This field is required.'],
-    #         'last_name': ['This field is required.'],
-    #         'email': ['This field is required.'],
-    #         'mob_parent': ['This field is required.'],
-    #         'mob_student': ['This field is required.'],
-    #         'locality': ['This field is required.'],
-    #         'school': ['This field is required.'],
-    #         'password1': ['This field is required.'],
-    #         'password2': ['This field is required.'],
-    #     })
+    def test_blank_data(self):
+        form = CustomUserCreationForm({})
+        self.assertFalse(form.is_valid())
+
+        errors_dict = form.errors.as_data()
+
+        # Asserts that the erroneous fields were registered
+        self.assertTrue('first_name' in errors_dict) # F
+        self.assertTrue('last_name' in errors_dict) # F
+        self.assertTrue('email' in errors_dict)
+        # self.assertTrue('mob_parent' in errors_dict) # F
+        # self.assertTrue('mob_student' in errors_dict) # F
+        self.assertTrue('locality' in errors_dict)
+        self.assertTrue('password1' in errors_dict)
+        self.assertTrue('password2' in errors_dict)
+
+        # Asserts that the erroneous fields' errors were registered correctly
+
+        # DEBBUGING
+        # print(errors_dict)
+        # Note that errors_dict['email'] is a list object
+        # This solution is only temporary. We are assuming that the desired error message is stored at index 0 of the list.
+        # This might not always be the case. Find a way to search the whole list for the desired error.
+
+        self.assertTrue('This field is required.' in errors_dict['first_name'][0])
+        self.assertTrue('This field is required.' in errors_dict['last_name'][0])
+        self.assertTrue('This field is required.' in errors_dict['email'][0])
+        self.assertTrue('This field is required.' in errors_dict['locality'][0])
+        self.assertTrue('This field is required.' in errors_dict['password1'][0])
+        self.assertTrue('This field is required.' in errors_dict['password2'][0])
