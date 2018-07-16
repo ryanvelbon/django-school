@@ -46,6 +46,10 @@ class School(models.Model):
 
 class CustomUser(AbstractUser):
 
+    # override User model's first_name and last_name fields to make them required
+    first_name = models.CharField(max_length=40, blank=False)
+    last_name = models.CharField(max_length=40, blank=False)
+
     phone_regex = RegexValidator(regex=r'^\d{8}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
@@ -66,4 +70,11 @@ class CustomUser(AbstractUser):
 
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE, null=True)
 
-    # BUG: make first_name and last_name required
+    def save(self, *args, **kwargs):
+        if not (self.mob_parent or self.mob_student):
+            # 1. Encapsulate the condition in a validator function __validate_at_least_one_mob()
+            # 2. raise validation error? or maybe make a clean() method?
+            return
+        else:
+            super().save(*args, **kwargs)
+    

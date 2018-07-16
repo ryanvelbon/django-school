@@ -1,5 +1,10 @@
-WHERE ARE YOU: users/test.py
-... IMPLEMENT test_blank_data()
+TASKS:
+1. test username for double-barrel names "Mark Anthony Vella Bonello"
+2. test mob_student or mob_parent required (or both obviously)
+3. Figure out how to put __generate_username() in users/model.py as opposed to users/forms.py
+4. test users/models.py
+5. test users/forms.py
+
 
 LITERATURE:
      - William Vincent Chapters 8, 9
@@ -54,3 +59,9 @@ LITERATURE:
      - https://stackoverflow.com/questions/34317847/django-forms-unit-tests-with-foreignkey
 
 8. Overriding django.contrib.auth.models.AbstractUser to make first_name and last_name fields required.
+
+9. At least one mobile number
+     - BACKEND: Overriding CustomUser's base class User's save() method.
+     - FRONTEND:
+
+10.

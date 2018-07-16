@@ -7,7 +7,7 @@ from .models import Locality, School, CustomUser
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['email', 'username', 'first_name', 'last_name', 'school', 'mob_student', 'locality']
+    list_display = ['email', 'username', 'first_name', 'last_name', 'school', 'mob_parent', 'mob_student', 'locality']
     model = CustomUser
 
 admin.site.register(Locality)
