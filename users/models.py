@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import RegexValidator
 
+from django.core.exceptions import ValidationError
+
 class Locality(models.Model):
     name = models.CharField(max_length=100)
 
@@ -10,8 +12,6 @@ class Locality(models.Model):
 
     class Meta:
         verbose_name_plural = 'localities'
-
-
 
 
 class School(models.Model):
@@ -50,7 +50,7 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(max_length=40, blank=False)
     last_name = models.CharField(max_length=40, blank=False)
 
-    phone_regex = RegexValidator(regex=r'^\d{8}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_regex = RegexValidator(regex=r'^\d{8}$', message="Phone number must be exactly 8 digits long.")
 
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
 
@@ -70,11 +70,27 @@ class CustomUser(AbstractUser):
 
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE, null=True)
 
-    def save(self, *args, **kwargs):
+    def clean(self):
+        """Django's clean() method should be used to provide custom model validation, and to modify attributes on your model if desired. For instance, you could use it to automatically provide a value for a field, or to do validation that requires access to more than a single field."""
+
         if not (self.mob_parent or self.mob_student):
-            # 1. Encapsulate the condition in a validator function __validate_at_least_one_mob()
-            # 2. raise validation error? or maybe make a clean() method?
-            return
-        else:
-            super().save(*args, **kwargs)
-    
+            raise ValidationError("Please enter at least one mobile number.")
+        self.username = self.generate_username()
+
+    # def save(self, *args, **kwargs):
+    #     # do some custom shit
+    #     super().save(*args, **kwargs)
+
+    def generate_username(self):
+        val = "{0}{1}".format(self.first_name[0],self.last_name).lower()
+        x=0
+        while True:
+            if x == 0 and CustomUser.objects.filter(username=val).count() == 0:
+                return val
+            else:
+                new_val = "{0}{1}".format(val,x)
+                if CustomUser.objects.filter(username=new_val).count() == 0:
+                    return new_val
+                x += 1
+                if x > 1000000:
+                    raise Exception("Too many users have same name. Cannot generate username.")

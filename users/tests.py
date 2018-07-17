@@ -9,25 +9,63 @@ from .models import Locality, School, CustomUser
     # def setUp(self):
     #     pass
 
-# class CustomUserModelTest(TestCase):
+class CustomUserModelTest(TestCase):
 
-    # def setUp(self):
+    def setUp(self):
+        # DELETE FROM HERE all this ... this is not DRY code...
+        Locality.objects.create(name='Valletta')
+        School.objects.create(
+            name='Foobar Academy',
+            locality=Locality.objects.get(id=1),
+            type='public',
+        )
+        # DELETE TO HERE
 
-    #
-    #     CustomUser.objects.create(
-    #         email='foobar@gmail.com',
-    #         first_name='Foo',
-    #         last_name='Bar',
-    #         school=School.objects.get(id=1),
-    #         mob_parent='99112233',
-    #         mob_student='79112233',
-    #         locality=Locality.objects.get(id=1),
-    #     )
+    def test_user_has_username(self):
+        """Username is not specified by admin or user.
+        This function checks that user has been assigned a username."""
 
-    # def test_user_has_username(self):
-    #     user = CustomUser.objects.get(id=1)
-    #     self.assertFalse(user.username ) # check that user.username is not blank
-    #
+        CustomUser.objects.create(
+            email='foobar@gmail.com',
+            first_name='Thomas',
+            last_name='Johnson',
+            school=School.objects.get(id=1),
+            mob_parent='99112233',
+            mob_student='79112233',
+            locality=Locality.objects.get(id=1),
+        )
+
+        user = CustomUser.objects.get(id=1)
+        self.assertTrue(user.username ) # check that username is not blank
+        self.assertTrue('tjohnson' in user.username) # check that username is  correct
+
+    def test_create_user_with_one_mobile(self):
+
+        myUser = CustomUser.objects.create(
+            email='foobar@gmail.com',
+            first_name='Thomas',
+            last_name='Johnson',
+            school=School.objects.get(id=1),
+            mob_parent='99112233',
+            locality=Locality.objects.get(id=1),
+        )
+
+        self.assertTrue(isinstance(myUser, CustomUser))
+
+    def test_create_user_without_mobile_disallowed(self):
+
+        myUser = CustomUser.objects.create(
+            email='foobar@gmail.com',
+            first_name='Thomas',
+            last_name='Johnson',
+            school=School.objects.get(id=1),
+            locality=Locality.objects.get(id=1),
+        )
+
+        # self.assertRaises()
+
+        self.assertFalse(isinstance(myUser, CustomUser))
+
 
 class CustomUserCreationFormTest(TestCase):
 

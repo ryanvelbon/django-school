@@ -1,3 +1,10 @@
+NEXT COMMIT MESSAGE:
+
+
+1. Testing invalid object creation
+https://stackoverflow.com/questions/51389909/django-how-to-test-invalid-object-creation
+
+
 TASKS:
 1. test username for double-barrel names "Mark Anthony Vella Bonello"
 2. test mob_student or mob_parent required (or both obviously)
@@ -64,4 +71,22 @@ LITERATURE:
      - BACKEND: Overriding CustomUser's base class User's save() method.
      - FRONTEND:
 
-10.
+10. Overriding vs. replacing an admin template
+     - https://docs.djangoproject.com/en/dev/ref/contrib/admin/#overriding-vs-replacing-an-admin-template
+     -
+11. Customizing admin/users/customuser/add to show certain fields
+     - Previously, CustomUserAdmin extended UserAdmin
+     - UserAdmin comes along with an add_page, where the admin is asked for 'username', 'password1', 'password2' and all other fields are hidden.
+     - However, in the CustomUser model, we want the 'username' to be created from 'first_name' and 'last_name'.
+     - Therefore we need to hide the 'username' field, and show the 'first_name', 'last_name' and other fields instead.
+     - This can be achieved by making CustomUserAdmin extend ModelAdmin instead of UserAdmin
+     - And then simply specifying the fields
+
+12. Raising ValidationError neither mobile number is provided for CustomUser
+     - Error needs to be displayed in admin add_page for CustomUser
+     - clean() method or validator?
+     - read: https://stackoverflow.com/questions/8771029/raise-a-validation-error-in-a-models-save-method-in-django/8771277
+
+13. Model.clean()
+     - This method should be used to provide custom model validation, and to modify attributes on your model if desired. For instance, you could use it to automatically provide a value for a field, or to do validation that requires access to more than a single field.
+     - Example: see the clean() method in users.models.CustomUser
