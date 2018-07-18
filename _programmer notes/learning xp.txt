@@ -1,21 +1,8 @@
-NEXT COMMIT MESSAGE:
 
 
-1. Testing invalid object creation
-https://stackoverflow.com/questions/51389909/django-how-to-test-invalid-object-creation
 
 
-TASKS:
-1. test username for double-barrel names "Mark Anthony Vella Bonello"
-2. test mob_student or mob_parent required (or both obviously)
-3. Figure out how to put __generate_username() in users/model.py as opposed to users/forms.py
-4. test users/models.py
-5. test users/forms.py
 
-
-LITERATURE:
-     - William Vincent Chapters 8, 9
-     arrived p.197 (actual page)
 
 1. Custom User Model
 
@@ -44,12 +31,45 @@ LITERATURE:
 
 5. Automatically generating a username when a user creates an account
      - https://stackoverflow.com/questions/28765847/generate-uniq-username-using-first-and-last-name-in-django
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------9-----------------------------------------------------------------------------------------------
+-----------------------------------------------------T-E-S-T-I-N-G----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+9.1. Running a specific test unit in CLI:
 
-6. Testing
-  6.1. Testing Form Submission
-     - Valid form submission
-     - Invalid form submission
+    Example:
+    $ python manage.py test users.tests.CustomUserCreationFormTest.test_blank_data
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+9.2. Testing Form Submission
+
+9.2.1 Valid Submission
+
+9.2.2 Invalid Submission
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+9.3.1 Asserting url pattern resolves to correct class-based view function
+
+READ: https://stackoverflow.com/questions/27320821/django-how-to-assert-url-pattern-resolves-to-correct-class-based-view-function
+
+from django.urls import resolve
+from .views import SignUp
+
+class SignUpPageTest(TestCase):
+
+    def test_signup_url_resolves_to_signup_view(self):
+        found = resolve('/users/signup/')
+        self.assertEqual(found.func.view_class, SignUp)
+
+9.3.2 Asserting url pattern resolves to correct function-based view function
+
+Same thing except for last line:
+
+        self.assertEqual(found.func, sign_up)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+9.99 Boq
      - Testing Password
        self.assertTrue(user.check_password("dsg123FT2"))
 
